@@ -48,25 +48,25 @@ private[collection] class RichIterable[A](underlying: jl.Iterable[A]) {
 // }
 
 private[collection] class RichSet[A](underlying: ju.Set[A]) {
-  def asScala: sc.Set[A] = underlying match {
-    case w : s2j.SetWrapper[_] => w.underlying
-    case _ => new SetWrapper(underlying)
-  }
-  def asScalaMutable: scm.Set[A] = underlying match {
-    case w : s2j.MutableSetWrapper[_] => w.underlying
-    case _ => new MutableSetWrapper(underlying)
-  }
+  // def asScala: sc.Set[A] = underlying match {
+  //   case w : s2j.SetWrapper[_] => w.underlying
+  //   case _ => new SetWrapper(underlying)
+  // }
+  // def asScalaMutable: scm.Set[A] = underlying match {
+  //   case w : s2j.MutableSetWrapper[_] => w.underlying
+  //   case _ => new MutableSetWrapper(underlying)
+  // }
 }
 
 private[collection] class RichMap[A, B](underlying: ju.Map[A, B]) {
-  def asScala: sc.Map[A, B] = underlying match {
-    case w : s2j.MapWrapper[_, _] => w.underlying
-    case _ => new MapWrapper(underlying)
-  }
-  def asScalaMutable: scm.Map[A, B] = underlying match {
-    case w : s2j.MutableMapWrapper[_, _] => w.underlying
-    case _ => new MutableMapWrapper(underlying)
-  }
+  // def asScala: sc.Map[A, B] = underlying match {
+  //   case w : s2j.MapWrapper[_, _] => w.underlying
+  //   case _ => new MapWrapper(underlying)
+  // }
+  // def asScalaMutable: scm.Map[A, B] = underlying match {
+  //   case w : s2j.MutableMapWrapper[_, _] => w.underlying
+  //   case _ => new MutableMapWrapper(underlying)
+  // }
   
   def foreach(f: (A, B) => Unit): Unit = {
     val g = (e: ju.Map.Entry[A, B]) => f(e.getKey, e.getValue)
