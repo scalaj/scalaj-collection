@@ -35,63 +35,6 @@ You can also use foreach on any Java collection:
 
 The "map", "filter", and "flatMap" methods are still pending.
 
-## Installation
-
-### sbt
-
-If you're using simple-build-tool, simply add the following line to your project file:
-
-    val scalaj_collection = "org.scalaj" %% "collection" % "1.0.Beta1"
-
-### Maven
-
-If you're using Maven, add the following to your pom.xml:
-
-    <dependency>
-      <groupId>org.scalaj</groupId>
-      <artifactId>collection</artifactId>
-      <version>1.0.Beta1_${scala.version}</version>
-    </dependency>
-
-### JARs
-
-Download the jars from [# scalaj-collection
-
-Utilities for converting between Java and Scala collections.
-
-## Usage
-
-Turn any Scala collection into the corresponding Java collection:
-
-    import scalaj.collection.Imports._
-
-    List(1, 2, 3).asJava
-    // returns java.util.List[java.lang.Integer]
-
-    Map(1 -> "a", 2 -> "b", 3 -> "c").asJava
-    // returns java.util.Map[java.lang.Integer, java.lang.String]
-
-    Set(1, 2, 3).asJava
-    // returns java.util.Set[java.lang.Integer]
-
-Turn any Java collection into the corresponding Scala collection:
-
-    val list = new java.util.ArrayList[Int]
-    list.add(1)
-    list.add(2)
-    list.add(3)
-    list.asScala
-    // returns scala.Seq[Int]
-
-For the full list of available conversions, please see the NOTES file.
-
-You can also use foreach on any Java collection:
-
-    list.foreach(print)
-    // prints "123"
-
-The "map", "filter", and "flatMap" methods are still pending.
-
 ## Requirements
 
 scalaj-collection requires at least Scala 2.8.0.Beta1 or later.
