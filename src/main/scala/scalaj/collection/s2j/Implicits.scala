@@ -20,22 +20,21 @@ trait Implicits {
   implicit def RichSMutableMap[A, B](underlying: scm.Map[A, B]): RichMutableMap[A, B] = new RichMutableMap(underlying)
 }
 
-trait Coercible[A, B] {
-  def apply[M[X]](a: M[A]): M[B] = a.asInstanceOf[M[B]]
-  def coerce2[M[X, Y], C, D](a: M[A, C])(implicit coerce: Coercible[C, D]): M[B, D] = a.asInstanceOf[M[B, D]]
+class Convertible[A, B](f: A => B) extends (A => B) {
+  override def apply(x: A): B = f(x)
 }
 
-object Coercible extends LowPriorityCoercible {
-  implicit object CoercibleBoolean extends Coercible[Boolean, jl.Boolean]
-  implicit object CoercibleChar extends Coercible[Char, jl.Character]
-  implicit object CoercibleByte extends Coercible[Byte, jl.Byte]
-  implicit object CoercibleShort extends Coercible[Short, jl.Short]
-  implicit object CoercibleInt extends Coercible[Int, jl.Integer]
-  implicit object CoercibleLong extends Coercible[Long, jl.Long]
-  implicit object CoercibleFloat extends Coercible[Float, jl.Float]
-  implicit object CoercibleDouble extends Coercible[Double, jl.Double]
+object Convertible extends LowPriorityConvertible {
+  implicit object ConvertibleBoolean extends Convertible[jl.Boolean, Boolean](identity _)
+  implicit object ConvertibleChar extends Convertible[jl.Character, Char](identity _)
+  implicit object ConvertibleByte extends Convertible[jl.Byte, Byte](identity _)
+  implicit object ConvertibleShort extends Convertible[jl.Short, Short](identity _)
+  implicit object ConvertibleInt extends Convertible[jl.Integer, Int](identity _)
+  implicit object ConvertibleLong extends Convertible[jl.Long, Long](identity _)
+  implicit object ConvertibleFloat extends Convertible[jl.Float, Float](identity _)
+  implicit object ConvertibleDouble extends Convertible[jl.Double, Double](identity _)
 }
 
-trait LowPriorityCoercible {
-  implicit def CoercibleSelf[A]: Coercible[A, A] = new Coercible[A, A] {}
+trait LowPriorityConvertible {
+  implicit def ConvertibleSelf[A]: Convertible[A, A] = new Convertible[A, A](identity _)
 }

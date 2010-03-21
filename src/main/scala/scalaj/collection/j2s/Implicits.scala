@@ -7,32 +7,62 @@ import scala.{collection => sc}
 import scala.collection.{immutable => sci, mutable => scm}
 
 object Implicits extends Implicits
-
 trait Implicits {
-  implicit def RichJEnumeration[A](underlying: ju.Enumeration[A]): RichEnumeration[A] = new RichEnumeration(underlying)
-  implicit def RichJIterator[A](underlying: ju.Iterator[A]): RichIterator[A] = new RichIterator(underlying)
-  implicit def RichJIterable[A](underlying: jl.Iterable[A]): RichIterable[A] = new RichIterable(underlying)
-  implicit def RichJList[A](underlying: ju.List[A]): RichList[A] = new RichList(underlying)
-  implicit def RichJSet[A](underlying: ju.Set[A]): RichSet[A] = new RichSet(underlying)
-  implicit def RichJMap[A, B](underlying: ju.Map[A, B]): RichMap[A, B] = new RichMap(underlying)
+  class Convertible1Wrapper[M[_], A](x: M[A]) {
+    def asScala[N[_], B](implicit c0: Convertible0[A, B], c1: Convertible1[M, N]): N[B] = c1(x)
+  }
+
+  class CC1W[M2[_], M1[_], A](x: M2[M1[A]]) {
+    def asScala[N2[_], N1[_], B](implicit c0: Convertible0[A, B], c1: Convertible1[M1, N1], c2: Convertible1[M2, N2]): N2[N1[B]] = c2(x)
+  }
+
+  class Convertible2Wrapper[M[_, _], A, B](x: M[A, B]) {
+    def asScala[N[_, _], C, D](implicit c0a: Convertible0[A, C], c0b: Convertible0[B, D], c2: Convertible2[M, N]): N[C, D] = c2(x)
+  }
+
+  implicit def Convertible1Wrapper[M[_], A](x: M[A]): Convertible1Wrapper[M, A] = new Convertible1Wrapper[M, A](x)
+  implicit def Convertible2Wrapper[M[_, _], A, B](x: M[A, B]): Convertible2Wrapper[M, A, B] = new Convertible2Wrapper[M, A, B](x)
+  implicit def CC1W[M2[_], M1[_], A](x: M2[M1[A]]): CC1W[M2, M1, A] = new CC1W[M2, M1, A](x)
 }
 
-trait Coercible[A, B] {
-  def apply[M[X]](a: M[A]): M[B] = a.asInstanceOf[M[B]]
-  def coerce2[M[X, Y], C, D](a: M[A, C])(implicit coerce: Coercible[C, D]): M[B, D] = a.asInstanceOf[M[B, D]]
+trait Convertible0[A, B] extends (A => B)
+
+trait Convertible1[M[_], N[_]] {
+  def apply[A, B](x: M[A])(implicit convert: Convertible0[A, B]): N[B]
 }
 
-object Coercible extends LowPriorityCoercible {
-  implicit object CoercibleBoolean extends Coercible[jl.Boolean, Boolean]
-  implicit object CoercibleChar extends Coercible[jl.Character, Char]
-  implicit object CoercibleByte extends Coercible[jl.Byte, Byte]
-  implicit object CoercibleShort extends Coercible[jl.Short, Short]
-  implicit object CoercibleInt extends Coercible[jl.Integer, Int]
-  implicit object CoercibleLong extends Coercible[jl.Long, Long]
-  implicit object CoercibleFloat extends Coercible[jl.Float, Float]
-  implicit object CoercibleDouble extends Coercible[jl.Double, Double]
+trait Convertible2[M[_, _], N[_, _]] {
+  def apply[A, B, C, D](x: M[A, B])(implicit c1: Convertible0[A, C], c2: Convertible0[B, D]): N[C, D]
 }
 
-trait LowPriorityCoercible {
-  implicit def CoercibleSelf[A]: Coercible[A, A] = new Coercible[A, A] {}
+object Convertible0 /* extends LowPriorityConvertible */ {
+  private[collection] class CoercedConvertible0[A, B] extends Convertible0[A, B] {
+    override def apply(x: A): B = x.asInstanceOf[B]
+  }
+
+  implicit object Convertible0Boolean extends CoercedConvertible0[jl.Boolean, Boolean]
+  implicit object Convertible0Char extends CoercedConvertible0[jl.Character, Char]
+  implicit object Convertible0Byte extends CoercedConvertible0[jl.Byte, Byte]
+  implicit object Convertible0Short extends CoercedConvertible0[jl.Short, Short]
+  implicit object Convertible0Int extends CoercedConvertible0[jl.Integer, Int]
+  implicit object Convertible0Long extends CoercedConvertible0[jl.Long, Long]
+  implicit object Convertible0Float extends CoercedConvertible0[jl.Float, Float]
+  implicit object Convertible0Double extends CoercedConvertible0[jl.Double, Double]
+
+  implicit def Convertible1ToConvertible0[M[_], N[_], A, B](implicit c1: Convertible1[M, N], c0: Convertible0[A, B]): Convertible0[M[A], N[B]] =
+    new Convertible0[M[A], N[B]] {
+      override def apply(x: M[A]): N[B] = c1(x)
+    }
 }
+
+object Convertible1 {
+  implicit object Convertible1List extends Convertible1[java.util.List, Seq] {
+    override def apply[A, B](x: ju.List[A])(implicit convert: Convertible0[A, B]): Seq[B] = new ListWrapper(x)
+  }
+}
+
+// trait LowPriorityConvertible {
+//   implicit def Convertible0Self[A]: Convertible0[A, A] = new Convertible0[A, A] {
+//     override def apply(x: A): A = x
+//   }
+// }
