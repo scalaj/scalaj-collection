@@ -17,22 +17,30 @@ trait Implicits {
   implicit def RichJMap[A, B](underlying: ju.Map[A, B]): RichMap[A, B] = new RichMap(underlying)
 }
 
-trait Coercible[A, B] {
-  def apply[M[X]](a: M[A]): M[B] = a.asInstanceOf[M[B]]
-  def coerce2[M[X, Y], C, D](a: M[A, C])(implicit coerce: Coercible[C, D]): M[B, D] = a.asInstanceOf[M[B, D]]
-}
+trait Coercible[A, B] extends (A => B)
 
 object Coercible extends LowPriorityCoercible {
-  implicit object CoercibleBoolean extends Coercible[jl.Boolean, Boolean]
-  implicit object CoercibleChar extends Coercible[jl.Character, Char]
-  implicit object CoercibleByte extends Coercible[jl.Byte, Byte]
-  implicit object CoercibleShort extends Coercible[jl.Short, Short]
-  implicit object CoercibleInt extends Coercible[jl.Integer, Int]
-  implicit object CoercibleLong extends Coercible[jl.Long, Long]
-  implicit object CoercibleFloat extends Coercible[jl.Float, Float]
-  implicit object CoercibleDouble extends Coercible[jl.Double, Double]
+  private[collection] def coerce[M[_], A, B](m: M[A])(implicit c: Coercible[A, B]): M[B] = m.asInstanceOf[M[B]]
+  private[collection] def coerce2[M[_, _], A, B, C, D](m: M[A, B])(implicit c1: Coercible[A, C], c2: Coercible[B, D]): M[C, D] = m.asInstanceOf[M[C, D]]
+
+  implicit object CoercibleBoolean extends PrimitiveCoercible[jl.Boolean, Boolean]
+  implicit object CoercibleChar extends PrimitiveCoercible[jl.Character, Char]
+  implicit object CoercibleByte extends PrimitiveCoercible[jl.Byte, Byte]
+  implicit object CoercibleShort extends PrimitiveCoercible[jl.Short, Short]
+  implicit object CoercibleInt extends PrimitiveCoercible[jl.Integer, Int]
+  implicit object CoercibleLong extends PrimitiveCoercible[jl.Long, Long]
+  implicit object CoercibleFloat extends PrimitiveCoercible[jl.Float, Float]
+  implicit object CoercibleDouble extends PrimitiveCoercible[jl.Double, Double]
+
+  private[Coercible] class PrimitiveCoercible[A, B] extends Coercible[A, B] {
+    override def apply(x: A): B = x.asInstanceOf[B]
+  }
 }
 
 trait LowPriorityCoercible {
-  implicit def CoercibleSelf[A]: Coercible[A, A] = new Coercible[A, A] {}
+  implicit def CoercibleSelf[A]: Coercible[A, A] = CoercibleSelf.asInstanceOf[Coercible[A, A]]
+
+  private object CoercibleSelf extends Coercible[Any, Any] {
+    override def apply(x: Any): Any = x
+  }
 }

@@ -20,22 +20,28 @@ trait Implicits {
   implicit def RichSMutableMap[A, B](underlying: scm.Map[A, B]): RichMutableMap[A, B] = new RichMutableMap(underlying)
 }
 
-trait Coercible[A, B] {
-  def apply[M[X]](a: M[A]): M[B] = a.asInstanceOf[M[B]]
-  def coerce2[M[X, Y], C, D](a: M[A, C])(implicit coerce: Coercible[C, D]): M[B, D] = a.asInstanceOf[M[B, D]]
-}
+trait Coercible[A, B] extends (A => B)
 
 object Coercible extends LowPriorityCoercible {
-  implicit object CoercibleBoolean extends Coercible[Boolean, jl.Boolean]
-  implicit object CoercibleChar extends Coercible[Char, jl.Character]
-  implicit object CoercibleByte extends Coercible[Byte, jl.Byte]
-  implicit object CoercibleShort extends Coercible[Short, jl.Short]
-  implicit object CoercibleInt extends Coercible[Int, jl.Integer]
-  implicit object CoercibleLong extends Coercible[Long, jl.Long]
-  implicit object CoercibleFloat extends Coercible[Float, jl.Float]
-  implicit object CoercibleDouble extends Coercible[Double, jl.Double]
+  private[collection] def coerce[M[_], A, B](m: M[A])(implicit c: Coercible[A, B]): M[B] = m.asInstanceOf[M[B]]
+  private[collection] def coerce2[M[_, _], A, B, C, D](m: M[A, B])(implicit c1: Coercible[A, C], c2: Coercible[B, D]): M[C, D] = m.asInstanceOf[M[C, D]]
+
+  implicit object CoercibleBoolean extends PrimitiveCoercible[Boolean, jl.Boolean]
+  implicit object CoercibleChar extends PrimitiveCoercible[Char, jl.Character]
+  implicit object CoercibleByte extends PrimitiveCoercible[Byte, jl.Byte]
+  implicit object CoercibleShort extends PrimitiveCoercible[Short, jl.Short]
+  implicit object CoercibleInt extends PrimitiveCoercible[Int, jl.Integer]
+  implicit object CoercibleLong extends PrimitiveCoercible[Long, jl.Long]
+  implicit object CoercibleFloat extends PrimitiveCoercible[Float, jl.Float]
+  implicit object CoercibleDouble extends PrimitiveCoercible[Double, jl.Double]
+
+  private[Coercible] class PrimitiveCoercible[A, B] extends Coercible[A, B] {
+    override def apply(x: A): B = x.asInstanceOf[B]
+  }
 }
 
 trait LowPriorityCoercible {
-  implicit def CoercibleSelf[A]: Coercible[A, A] = new Coercible[A, A] {}
+  implicit def CoercibleSelf[A]: Coercible[A, A] = new Coercible[A, A] {
+    override def apply(x: A): A = x
+  }
 }
