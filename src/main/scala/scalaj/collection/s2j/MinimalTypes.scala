@@ -69,4 +69,8 @@ private[collection] class RichMutableMap[A, B](underlying: scm.Map[A, B]) {
     case w : j2s.MutableMapWrapper[_, _] => coerce2(w.underlying)
     case _ => coerce2(new MutableMapWrapper(underlying))
   }
+  def asJavaDictionary[C, D](implicit c1: Coercible[A, C], c2: Coercible[B, D]): ju.Dictionary[C, D] = underlying match {
+    case w : j2s.DictionaryWrapper[_, _] => coerce2(w.underlying.asInstanceOf[ju.Dictionary[A, B]])
+    case _ => coerce2(new MutableMapDictionaryWrapper(underlying))
+  }
 }

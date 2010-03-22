@@ -15,6 +15,7 @@ trait Implicits {
   implicit def RichJList[A](underlying: ju.List[A]): RichList[A] = new RichList(underlying)
   implicit def RichJSet[A](underlying: ju.Set[A]): RichSet[A] = new RichSet(underlying)
   implicit def RichJMap[A, B](underlying: ju.Map[A, B]): RichMap[A, B] = new RichMap(underlying)
+  implicit def RichJDictionary[A, B](underlying: ju.Dictionary[A, B]): RichDictionary[A, B] = new RichDictionary(underlying)
 }
 
 trait Coercible[A, B] extends (A => B)

@@ -88,3 +88,17 @@ class MutableMapWrapper[A, B](override val underlying: ju.Map[A, B]) extends Abs
     this
   }
 }
+
+class DictionaryWrapper[A, B](val underlying: ju.Dictionary[A, B]) extends scm.Map[A, B] {
+  override def iterator: sc.Iterator[(A, B)] =
+    new EnumerationWrapper(underlying.keys).map(key => (key, underlying.get(key)))
+  override def get(key: A): Option[B] = Option(underlying.get(key))
+  override def -= (key: A): this.type = {
+    underlying.remove(key)
+    this
+  }
+  override def += (kv: (A, B)): this.type = {
+    underlying.put(kv._1, kv._2)
+    this
+  }
+}

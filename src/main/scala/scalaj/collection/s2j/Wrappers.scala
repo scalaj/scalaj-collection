@@ -109,3 +109,25 @@ class MutableMapWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.Abstract
       override def size(): Int = underlying.size
     }
 }
+
+class MutableMapDictionaryWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.Dictionary[A, B] {
+  override def remove(key: Any): B = {
+    try {
+      underlying.remove(key.asInstanceOf[A]).getOrElse(null.asInstanceOf[B])
+    } catch {
+      case e: ClassCastException => null.asInstanceOf[B]
+    }
+  }
+  override def put(key: A, value: B): B = underlying.put(key, value).getOrElse(null.asInstanceOf[B])
+  override def get(key: Any): B = {
+    try {
+      underlying.get(key.asInstanceOf[A]).getOrElse(null.asInstanceOf[B])
+    } catch {
+      case e: ClassCastException => null.asInstanceOf[B]
+    }
+  }
+  override def elements(): ju.Enumeration[B] = new IteratorWrapper(underlying.valuesIterator)
+  override def keys(): ju.Enumeration[A] = new IteratorWrapper(underlying.keysIterator)
+  override def isEmpty(): Boolean = underlying.isEmpty
+  override def size(): Int = underlying.size
+}

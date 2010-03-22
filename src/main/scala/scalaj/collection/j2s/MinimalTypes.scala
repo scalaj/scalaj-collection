@@ -74,3 +74,15 @@ private[collection] class RichMap[A, B](underlying: ju.Map[A, B]) {
     Helpers.foreach(underlying.entrySet.iterator, g)
   }
 }
+
+private[collection] class RichDictionary[A, B](underlying: ju.Dictionary[A, B]) {
+  def asScala[C, D](implicit c1: Coercible[A, C], c2: Coercible[B, D]): scm.Map[C, D] = underlying match {
+    case w : s2j.MutableMapDictionaryWrapper[_, _] => coerce2(w.underlying)
+    case _ => coerce2(new DictionaryWrapper(underlying))
+  }
+
+  def foreach(f: (A, B) => Unit): Unit = {
+    val g = (key: A) => f(key, underlying.get(key))
+    Helpers.foreach(underlying.keys, g)
+  }
+}
