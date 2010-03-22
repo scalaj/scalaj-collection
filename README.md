@@ -41,27 +41,6 @@ scalaj-collection requires at least Scala 2.8.0.Beta1 or later.
 
 ## Installation
 
-<!--
-### sbt
-
-If you're using simple-build-tool, simply add the following line to your project file:
-
-    val scalaj_collection = "org.scalaj" %% "collection" % "1.0.Beta1"
-
-### Maven
-
-If you're using Maven, add the following to your pom.xml:
-
-    <dependency>
-      <groupId>org.scalaj</groupId>
-      <artifactId>collection</artifactId>
-      <version>1.0.Beta1_${scala.version}</version>
-    </dependency>
-
-### JARs
-
-Download the jars from http://scala-tools.org/repo-releases/org/scalaj/collection/
--->
 ### From source
 
 Clone the repository from Github:
