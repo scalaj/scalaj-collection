@@ -59,7 +59,7 @@ If you're using Maven, add the following to your pom.xml:
 
 ### JARs
 
-Download the jars from http://scala-tools.org/repo-releases/org/scalaj/scalaj-collection_2.8.0.Beta1/1.0.Beta1/
+Download the jars from [scala-tools.org](ttp://scala-tools.org/repo-releases/org/scalaj/scalaj-collection_2.8.0.Beta1/1.0.Beta1/)
 
 ### From source
 
