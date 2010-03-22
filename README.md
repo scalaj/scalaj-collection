@@ -19,12 +19,14 @@ Turn any Scala collection into the corresponding Java collection:
 
 Turn any Java collection into the corresponding Scala collection:
 
-    val list = new java.util.ArrayList[Int]
+    val list = new java.util.ArrayList[java.lang.Integer]
     list.add(1)
     list.add(2)
     list.add(3)
     list.asScala
     // returns scala.Seq[Int]
+
+As shown in the above examples, the library also converts between the boxed types of Scala and Java primitives.
 
 You can also use foreach on any Java collection:
 
@@ -91,4 +93,17 @@ The following methods are added via the [Pimp My Library](http://www.artima.com/
                               #foreach((A, B) => Unit): Unit
     java.util.Dictionary[A, B]#asScala: scala.collection.mutable.Map[A, B]
                               #foreach((A, B) => Unit): Unit
+
+    // Scala to Java
+    scala.collection.Iterator[A]      #asJava: java.util.Iterator[A]
+                                      #asJavaEnumeration: java.util.Enumeration[A]
+    scala.collection.Iterable[A]      #asJava: java.lang.Iterable[A]
+    scala.collection.Seq[A]           #asJava: java.util.List[A]
+    scala.collection.mutable.Seq[A]   #asJava: java.util.List[A]
+    scala.collection.mutable.Buffer[A]#asJava: java.util.List[A]
+    scala.collection.Set[A]           #asJava: java.util.Set[A]
+    scala.collection.mutable.Set[A]   #asJava: java.util.Set[A]
+    scala.collection.Map[A, B]        #asJava: java.util.Map[A, B]
+    scala.collection.mutable.Map[A, B]#asJava: java.util.Map[A, B]
+                                      #asJavaDictionary: java.util.Dictionary[A, B]
 
