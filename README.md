@@ -76,13 +76,19 @@ Build the project and create the JAR (requires [sbt](http://code.google.com/p/si
 The following methods are added via the [Pimp My Library](http://www.artima.com/weblogs/viewpost.jsp?thread=179766) pattern:
 
     // Java to Scala
-    java.util.Enumeration[A]#asScala: scala.collection.Iterator[A]
-                            #foreach(A => Unit): Unit
-    java.util.Iterator[A]#asScala: scala.collection.Iterator[A]
-                         #foreach(A => Unit): Unit
-    java.lang.Iterable[A]
-    java.util.List[A]
-    java.util.Set[A]
-    java.util.Map[A, B]
-    java.util.Dictionary[A, B]
-    
+    java.util.Enumeration[A]  #asScala: scala.collection.Iterator[A]
+                              #foreach(A => Unit): Unit
+    java.util.Iterator[A]     #asScala: scala.collection.Iterator[A]
+                              #foreach(A => Unit): Unit
+    java.lang.Iterable[A]     #asScala: scala.collection.Iterable[A]
+                              #foreach(A => Unit): Unit
+    java.util.List[A]         #asScala: scala.collection.Seq[A]
+                              #asScalaMutable: scala.collection.mutable.Seq[A]
+    java.util.Set[A]          #asScala: scala.collection.Set[A]
+                              #asScalaMutable: scala.collection.mutable.Set[A]
+    java.util.Map[A, B]       #asScala: scala.collection.Map[A, B]
+                              #asScalaMutable: scala.collection.mutable.Map[A, B]
+                              #foreach((A, B) => Unit): Unit
+    java.util.Dictionary[A, B]#asScala: scala.collection.mutable.Map[A, B]
+                              #foreach((A, B) => Unit): Unit
+
