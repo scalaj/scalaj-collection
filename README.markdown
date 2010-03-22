@@ -89,9 +89,9 @@ The following methods are added via the [Pimp My Library](http://www.artima.com/
                               #asScalaMutable: scala.collection.mutable.Set[A]
     java.util.Map[A, B]       #asScala: scala.collection.Map[A, B]
                               #asScalaMutable: scala.collection.mutable.Map[A, B]
-                              #foreach((A, B) => Unit): Unit
+                              #foreach(((A, B)) => Unit): Unit
     java.util.Dictionary[A, B]#asScala: scala.collection.mutable.Map[A, B]
-                              #foreach((A, B) => Unit): Unit
+                              #foreach(((A, B)) => Unit): Unit
 
     // Scala to Java
     scala.collection.Iterator[A]      #asJava: java.util.Iterator[A]
