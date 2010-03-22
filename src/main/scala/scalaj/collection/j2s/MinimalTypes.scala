@@ -69,7 +69,7 @@ private[collection] class RichMap[A, B](underlying: ju.Map[A, B]) {
     case _ => coerce2(new MutableMapWrapper(underlying))
   }
 
-  def foreach(f: (A, B) => Unit): Unit = {
+  def foreach(f: ((A, B)) => Unit): Unit = {
     val g = (e: ju.Map.Entry[A, B]) => f(e.getKey, e.getValue)
     Helpers.foreach(underlying.entrySet.iterator, g)
   }
@@ -81,7 +81,7 @@ private[collection] class RichDictionary[A, B](underlying: ju.Dictionary[A, B]) 
     case _ => coerce2(new DictionaryWrapper(underlying))
   }
 
-  def foreach(f: (A, B) => Unit): Unit = {
+  def foreach(f: ((A, B)) => Unit): Unit = {
     val g = (key: A) => f(key, underlying.get(key))
     Helpers.foreach(underlying.keys, g)
   }
