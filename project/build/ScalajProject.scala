@@ -1,6 +1,6 @@
 import sbt._
  
-class ScalajProject(info: ProjectInfo) extends DefaultProject(info) {
+class ScalajProject(info: ProjectInfo) extends DefaultProject(info) with posterous.Publish {
   override def compileOptions = Seq(Deprecation, Unchecked)
 
   // Dependencies
