@@ -1,6 +1,6 @@
 # scalaj-collection
 
-Utilities for converting between Java and Scala collections.
+A library for converting between Java and Scala collections.
 
 ## Usage
 
