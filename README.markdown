@@ -77,6 +77,8 @@ Build the project and create the JAR (requires [sbt](http://code.google.com/p/si
 The following methods are added via the [Pimp My Library](http://www.artima.com/weblogs/viewpost.jsp?thread=179766) pattern:
 
     // Java to Scala
+    java.lang.Comparable[A]   #asScala: scala.math.Ordered[A]
+    java.util.Comparator[A]   #asScala: scala.math.Ordering[A]
     java.util.Enumeration[A]  #asScala: scala.collection.Iterator[A]
                               #foreach(A => Unit): Unit
     java.util.Iterator[A]     #asScala: scala.collection.Iterator[A]
@@ -94,6 +96,8 @@ The following methods are added via the [Pimp My Library](http://www.artima.com/
                               #foreach(((A, B)) => Unit): Unit
 
     // Scala to Java
+    scala.math.Ordered[A]             #asJava: java.util.Comparable[A]
+    scala.math.Ordering[A]            #asJava: java.util.Comparator[A]
     scala.collection.Iterator[A]      #asJava: java.util.Iterator[A]
                                       #asJavaEnumeration: java.util.Enumeration[A]
     scala.collection.Iterable[A]      #asJava: java.lang.Iterable[A]

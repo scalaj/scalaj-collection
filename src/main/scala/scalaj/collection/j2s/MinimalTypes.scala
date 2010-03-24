@@ -3,9 +3,23 @@ package collection
 package j2s
 
 import java.{lang => jl, util => ju}
-import scala.{collection => sc}
+import scala.{collection => sc, math => sm}
 import scala.collection.{immutable => sci, mutable => scm}
 import Coercible.{coerce, coerce2}
+
+private[collection] class RichComparable[A](underlying: jl.Comparable[A]) {
+  def asScala[B](implicit c: Coercible[A, B]): sm.Ordered[A] = underlying match {
+    case s: sm.Ordered[_] => coerce(s)
+    case _ => coerce(new ComparableWrapper(underlying))
+  }
+}
+
+private[collection] class RichComparator[A](underlying: ju.Comparator[A]) {
+  def asScala[B](implicit c: Coercible[A, B]): sm.Ordering[B] = underlying match {
+    case s: sm.Ordering[_] => coerce(s)
+    case _ => coerce(new ComparatorWrapper(underlying))
+  }
+}
 
 private[collection] class RichEnumeration[A](underlying: ju.Enumeration[A]) {
   def asScala[B](implicit c: Coercible[A, B]): sc.Iterator[B] = underlying match {

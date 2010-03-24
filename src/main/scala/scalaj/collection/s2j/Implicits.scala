@@ -3,12 +3,14 @@ package collection
 package s2j
 
 import java.{lang => jl, util => ju}
-import scala.{collection => sc}
+import scala.{collection => sc, math => sm}
 import scala.collection.{immutable => sci, mutable => scm}
 
 object Implicits extends Implicits
 
 trait Implicits {
+  implicit def RichSOrdered[A](underlying: sm.Ordered[A]): RichOrdered[A] = new RichOrdered(underlying)
+  implicit def RichSOrdering[A](underlying: sm.Ordering[A]): RichOrdering[A] = new RichOrdering(underlying)
   implicit def RichSIterator[A](underlying: sc.Iterator[A]): RichIterator[A] = new RichIterator(underlying)
   implicit def RichSIterable[A](underlying: sc.Iterable[A]): RichIterable[A] = new RichIterable(underlying)
   implicit def RichSSeq[A](underlying: sc.Seq[A]): RichSeq[A] = new RichSeq(underlying)

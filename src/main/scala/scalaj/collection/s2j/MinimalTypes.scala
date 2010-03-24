@@ -3,9 +3,17 @@ package collection
 package s2j
 
 import java.{lang => jl, util => ju}
-import scala.{collection => sc}
+import scala.{collection => sc, math => sm}
 import scala.collection.{immutable => sci, mutable => scm}
 import Coercible.{coerce, coerce2}
+
+private[collection] class RichOrdered[A](underlying: sm.Ordered[A]) {
+  def asJava[B](implicit c: Coercible[A, B]): jl.Comparable[B] = coerce(underlying)
+}
+
+private[collection] class RichOrdering[A](underlying: sm.Ordering[A]) {
+  def asJava[B](implicit c: Coercible[A, B]): ju.Comparator[B] = coerce(underlying)
+}
 
 private[collection] class RichIterator[A](underlying: sc.Iterator[A]) {
   def asJava[B](implicit c: Coercible[A, B]): ju.Iterator[B] = underlying match {

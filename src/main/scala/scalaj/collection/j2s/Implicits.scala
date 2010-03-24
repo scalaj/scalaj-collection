@@ -9,6 +9,8 @@ import scala.collection.{immutable => sci, mutable => scm}
 object Implicits extends Implicits
 
 trait Implicits {
+  implicit def RichJComparable[A](underlying: jl.Comparable[A]): RichComparable[A] = new RichComparable(underlying)
+  implicit def RichJComparator[A](underlying: ju.Comparator[A]): RichComparator[A] = new RichComparator(underlying)
   implicit def RichJEnumeration[A](underlying: ju.Enumeration[A]): RichEnumeration[A] = new RichEnumeration(underlying)
   implicit def RichJIterator[A](underlying: ju.Iterator[A]): RichIterator[A] = new RichIterator(underlying)
   implicit def RichJIterable[A](underlying: jl.Iterable[A]): RichIterable[A] = new RichIterable(underlying)

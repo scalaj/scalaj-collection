@@ -3,10 +3,12 @@ package collection
 package j2s
 
 import java.{lang => jl, util => ju}
-import scala.{collection => sc}
+import scala.{collection => sc, math => sm}
 import scala.collection.{immutable => sci, mutable => scm}
 
 object Wrappers {
+  def ComparableWrapper[A](underlying: jl.Comparable[A]) = new ComparableWrapper(underlying)
+  def ComparatorWrapper[A](underlying: ju.Comparator[A]) = new ComparatorWrapper(underlying)
   def EnumerationWrapper[A](underlying: ju.Enumeration[A]) = new EnumerationWrapper(underlying)
   def IteratorWrapper[A](underlying: ju.Iterator[A]) = new IteratorWrapper(underlying)
   def IterableWrapper[A](underlying: jl.Iterable[A]) = new IterableWrapper(underlying)
@@ -17,6 +19,14 @@ object Wrappers {
   def MutableSetWrapper[A](underlying: ju.Set[A]) = new MutableSetWrapper(underlying)
   def MapWrapper[A, B](underlying: ju.Map[A, B]) = new MapWrapper(underlying)
   def MutableMapWrapper[A, B](underlying: ju.Map[A, B]) = new MutableMapWrapper(underlying)
+}
+
+class ComparableWrapper[A](val underlying: jl.Comparable[A]) extends sm.Ordered[A] {
+  override def compare(that: A): Int = underlying.compareTo(that)
+}
+
+class ComparatorWrapper[A](val underlying: ju.Comparator[A]) extends sm.Ordering[A] {
+  override def compare(x: A, y: A): Int = underlying.compare(x, y)
 }
 
 class EnumerationWrapper[A](val underlying: ju.Enumeration[A]) extends sc.Iterator[A] {
