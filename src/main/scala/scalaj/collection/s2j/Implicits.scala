@@ -22,7 +22,9 @@ trait Implicits {
   implicit def RichSMutableMap[A, B](underlying: scm.Map[A, B]): RichMutableMap[A, B] = new RichMutableMap(underlying)
 }
 
-trait Coercible[A, B] extends (A => B)
+sealed trait Coercible[-A, +B] {
+  def apply(x: A): B
+}
 
 object Coercible extends LowPriorityCoercible {
   private[collection] def coerce[M[_], A, B](m: M[A])(implicit c: Coercible[A, B]): M[B] = m.asInstanceOf[M[B]]

@@ -20,7 +20,9 @@ trait Implicits {
   implicit def RichJDictionary[A, B](underlying: ju.Dictionary[A, B]): RichDictionary[A, B] = new RichDictionary(underlying)
 }
 
-trait Coercible[A, B] extends (A => B)
+sealed trait Coercible[-A, +B] {
+  def apply(x: A): B
+}
 
 object Coercible extends LowPriorityCoercible {
   private[collection] def coerce[M[_], A, B](m: M[A])(implicit c: Coercible[A, B]): M[B] = m.asInstanceOf[M[B]]
