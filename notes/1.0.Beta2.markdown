@@ -1,4 +1,4 @@
-1.0 Beta2 release:
+Beta2 release:
 
 * Changed signature of Map#foreach to take a function of a Tuple2 rather than a Function2
 * Added support for Comparable, Comparator, Ordered, and Ordering
