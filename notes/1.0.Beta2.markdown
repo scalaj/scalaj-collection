@@ -5,4 +5,4 @@
 * Coercible no longer subclasses Function1 (to prevent accidentally putting implicit conversions in scope)
 * Wrappers are now @serializable if the underlying collection is @serializable
 
-Thanks to Daniel Spiewak and Michel Salim for their feedback!
+Special thanks to Daniel Spiewak and Michel Salim, who provided the feedback that led to most of the improvements in this release.

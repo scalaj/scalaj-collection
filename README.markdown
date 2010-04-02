@@ -45,7 +45,7 @@ scalaj-collection requires at least Scala 2.8.0.Beta1 or later.
 
 If you're using simple-build-tool, simply add the following line to your project file:
 
-    val scalaj_collection = "org.scalaj" %% "scalaj-collection" % "1.0.Beta1"
+    val scalaj_collection = "org.scalaj" %% "scalaj-collection" % "1.0.Beta2"
 
 ### Maven
 
@@ -54,7 +54,7 @@ If you're using Maven, add the following to your pom.xml:
     <dependency>
       <groupId>org.scalaj</groupId>
       <artifactId>scalaj-collection_${scala.version}</artifactId>
-      <version>1.0.Beta1</version>
+      <version>1.0.Beta2</version>
     </dependency>
 
 ### JARs
