@@ -31,16 +31,19 @@ abstract class MutableIteratorWrapper[A](override val underlying: sc.Iterator[A]
   }
 }
 
+@serializable @SerialVersionUID(1L)
 class IterableWrapper[A](val underlying: sc.Iterable[A]) extends ju.AbstractCollection[A] {
   override def size(): Int = underlying.size
   override def iterator(): ju.Iterator[A] = new IteratorWrapper(underlying.iterator)
 }
 
+@serializable @SerialVersionUID(1L)
 class SeqWrapper[A](val underlying: sc.Seq[A]) extends ju.AbstractList[A] {
   override def size(): Int = underlying.size
   override def get(index: Int): A = underlying(index)
 }
 
+@serializable @SerialVersionUID(1L)
 class MutableSeqWrapper[A](override val underlying: scm.Seq[A]) extends SeqWrapper(underlying) {
   override def set(index: Int, element: A): A = {
     val rv = underlying(index)
@@ -49,16 +52,19 @@ class MutableSeqWrapper[A](override val underlying: scm.Seq[A]) extends SeqWrapp
   }
 }
 
+@serializable @SerialVersionUID(1L)
 class BufferWrapper[A](override val underlying: scm.Buffer[A]) extends MutableSeqWrapper(underlying) {
   override def remove(index: Int): A = underlying.remove(index)
   override def add(index: Int, element: A): Unit = underlying.insert(index, element)
 }
 
+@serializable @SerialVersionUID(1L)
 class SetWrapper[A](val underlying: sc.Set[A]) extends ju.AbstractSet[A] {
   override def iterator(): ju.Iterator[A] = new IteratorWrapper(underlying.iterator)
   override def size(): Int = underlying.size
 }
 
+@serializable @SerialVersionUID(1L)
 class MutableSetWrapper[A](override val underlying: scm.Set[A]) extends SetWrapper(underlying) {
   override def add(element: A): Boolean = {
     val s = underlying.size
@@ -85,6 +91,7 @@ object MapWrapper {
   }
 }
 
+@serializable @SerialVersionUID(1L)
 class MapWrapper[A, B](val underlying: sc.Map[A, B]) extends ju.AbstractMap[A, B] {
   import MapWrapper.Entry
 
@@ -95,6 +102,7 @@ class MapWrapper[A, B](val underlying: sc.Map[A, B]) extends ju.AbstractMap[A, B
   }
 }
 
+@serializable @SerialVersionUID(1L)
 class MutableMapWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.AbstractMap[A, B] {
   import MapWrapper.Entry
 
@@ -110,6 +118,7 @@ class MutableMapWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.Abstract
     }
 }
 
+@serializable @SerialVersionUID(1L)
 class MutableMapDictionaryWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.Dictionary[A, B] {
   override def remove(key: Any): B = {
     try {

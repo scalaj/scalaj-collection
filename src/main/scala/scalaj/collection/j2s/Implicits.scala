@@ -43,9 +43,9 @@ object Coercible extends LowPriorityCoercible {
 }
 
 trait LowPriorityCoercible {
-  implicit def CoercibleSelf[A]: Coercible[A, A] = CoercibleSelf.asInstanceOf[Coercible[A, A]]
+  implicit def CoercibleSelf[A]: Coercible[A, A] = CoercibleSelfObject.asInstanceOf[Coercible[A, A]]
 
-  private object CoercibleSelf extends Coercible[Any, Any] {
+  private object CoercibleSelfObject extends Coercible[Any, Any] {
     override def apply(x: Any): Any = x
   }
 }
