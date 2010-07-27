@@ -37,7 +37,7 @@ The `map`, `filter`, and `flatMap` methods are still pending.
 
 ## Requirements
 
-scalaj-collection requires at least Scala 2.8.0.Beta1 or later.
+scalaj-collection requires Scala 2.8.0.
 
 ## Installation
 
@@ -45,7 +45,7 @@ scalaj-collection requires at least Scala 2.8.0.Beta1 or later.
 
 If you're using simple-build-tool, simply add the following line to your project file:
 
-    val scalaj_collection = "org.scalaj" %% "scalaj-collection" % "1.0.Beta2"
+    val scalaj_collection = "org.scalaj" %% "scalaj-collection" % "1.0"
 
 ### Maven
 
@@ -54,12 +54,12 @@ If you're using Maven, add the following to your pom.xml:
     <dependency>
       <groupId>org.scalaj</groupId>
       <artifactId>scalaj-collection_${scala.version}</artifactId>
-      <version>1.0.Beta2</version>
+      <version>1.0</version>
     </dependency>
 
 ### JARs
 
-Download the jars from [scala-tools.org](http://www.scala-tools.org/repo-releases/org/scalaj/scalaj-collection_2.8.0.Beta1/1.0.Beta1/)
+Download the jars from [scala-tools.org](http://www.scala-tools.org/repo-releases/org/scalaj/scalaj-collection_2.8.0/1.0/)
 
 ### From source
 
@@ -67,7 +67,7 @@ Clone the repository from Github:
 
     git clone git://github.com/scalaj/scalaj-collection.git
 
-Build the project and create the JAR (requires [sbt](http://code.google.com/p/simple-build-tool/) version 0.7.1 or greater):
+Build the project and create the JAR (requires [sbt](http://code.google.com/p/simple-build-tool/) version 0.7.4 or greater):
 
     cd scalaj-collection
     sbt package
