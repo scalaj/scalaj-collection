@@ -14,6 +14,6 @@ class ScalajProject(info: ProjectInfo) extends DefaultProject(info) with postero
   override def managedStyle = ManagedStyle.Maven
   val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/snapshots/"
   Credentials(Path.userHome / ".ivy2" / ".credentials", log)
-  override def publishAction = super.publishAction && publishCurrentNotes
-  override def extraTags = "scalaj" :: super.extraTags
+  // override def publishAction = super.publishAction && publishCurrentNotes
+  // override def extraTags = "scalaj" :: super.extraTags
 }
