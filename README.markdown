@@ -45,7 +45,7 @@ scalaj-collection requires Scala 2.8.0.
 
 If you're using simple-build-tool, simply add the following line to your project file:
 
-    val scalaj_collection = "org.scalaj" %% "scalaj-collection" % "1.0"
+    val scalaj_collection = "org.scalaj" %% "scalaj-collection" % "1.2"
 
 ### Maven
 
@@ -54,12 +54,12 @@ If you're using Maven, add the following to your pom.xml:
     <dependency>
       <groupId>org.scalaj</groupId>
       <artifactId>scalaj-collection_${scala.version}</artifactId>
-      <version>1.0</version>
+      <version>1.2</version>
     </dependency>
 
 ### JARs
 
-Download the jars from [scala-tools.org](http://www.scala-tools.org/repo-releases/org/scalaj/scalaj-collection_2.8.0/1.0/)
+Download the jars from [scala-tools.org](http://www.scala-tools.org/repo-releases/org/scalaj/scalaj-collection_2.9.1/1.2/)
 
 ### From source
 
