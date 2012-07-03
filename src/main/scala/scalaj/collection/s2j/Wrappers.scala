@@ -44,6 +44,85 @@ class SeqWrapper[A](val underlying: sc.Seq[A]) extends ju.AbstractList[A] {
 }
 
 @serializable @SerialVersionUID(1L)
+class LinearSeqWrapper[A](val underlying: sci.LinearSeq[A]) extends ju.List[A] {
+  // Size can be O(N), so we cache the value here (val instead of def)
+  override val size: Int = underlying.size
+
+  // This implementation is not ideal, but we don't have much choice
+  override def get(index: Int): A = underlying(index)
+
+  override def isEmpty(): Boolean = underlying.isEmpty
+
+  override def contains(e: AnyRef): Boolean = underlying.contains(e)
+
+  override def containsAll(c: ju.Collection[_]): Boolean = {
+    var result = true
+    val iter = c.iterator
+    while (iter.hasNext && result) {
+      val e = iter.next
+      if (!underlying.contains(e))
+        result = false
+    }
+    result
+  }
+
+  override def subList(start: Int, end: Int): ju.List[A] = new LinearSeqWrapper(underlying.slice(start, end))
+
+  override def toArray(): Array[AnyRef] = underlying.toArray[Any].asInstanceOf[Array[AnyRef]]
+  override def toArray[T](arr: Array[T with AnyRef]): Array[T with AnyRef] = throw new UnsupportedOperationException
+
+  override def add(elem: A): Boolean = throw new UnsupportedOperationException
+  override def add(index: Int, elem: A): Unit = throw new UnsupportedOperationException
+  override def addAll(c: ju.Collection[_ <: A]): Boolean = throw new UnsupportedOperationException
+  override def addAll(index: Int, c: ju.Collection[_ <: A]): Boolean = throw new UnsupportedOperationException
+  override def set(index: Int, elem: A): A = throw new UnsupportedOperationException
+  override def remove(index: Int): A = throw new UnsupportedOperationException
+  override def remove(elem: AnyRef): Boolean = throw new UnsupportedOperationException
+  override def removeAll(c: ju.Collection[_]): Boolean = throw new UnsupportedOperationException
+  override def retainAll(c: ju.Collection[_]): Boolean = throw new UnsupportedOperationException
+  override def clear(): Unit = throw new UnsupportedOperationException
+
+  override def indexOf(elem: AnyRef): Int = underlying.indexOf(elem.asInstanceOf[Any])
+
+  override def lastIndexOf(elem: AnyRef): Int = underlying.lastIndexOf(elem.asInstanceOf[Any])
+
+  override def iterator(): ju.Iterator[A] = new IteratorWrapper(underlying.iterator)
+
+  override def listIterator(): ju.ListIterator[A] = listIterator(0)
+
+  override def listIterator(index: Int): ju.ListIterator[A] = new ju.ListIterator[A] {
+    var _next: sci.LinearSeq[A] = underlying
+    var _prev: sci.LinearSeq[A] = Nil
+    var _index: Int = index
+
+    // Advance the listIterator to the desired location
+    for (i <- 1 to index) { next() }
+
+    override def hasNext(): Boolean = !_next.isEmpty
+    override def hasPrevious(): Boolean = !_prev.isEmpty
+    override def next(): A = {
+      val result = _next.head
+      _prev = result +: _prev
+      _next = _next.tail
+      _index += 1
+      result
+    }
+    override def previous(): A = {
+      val result = _prev.head
+      _next = result +: _next
+      _prev = _prev.tail
+      _index -= 1
+      result
+    }
+    override def nextIndex(): Int = index
+    override def previousIndex(): Int = index - 1
+    override def set(e: A): Unit = throw new UnsupportedOperationException
+    override def add(e: A): Unit = throw new UnsupportedOperationException
+    override def remove(): Unit = throw new UnsupportedOperationException
+  }
+}
+
+@serializable @SerialVersionUID(1L)
 class MutableSeqWrapper[A](override val underlying: scm.Seq[A]) extends SeqWrapper(underlying) {
   override def set(index: Int, element: A): A = {
     val rv = underlying(index)

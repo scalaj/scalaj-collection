@@ -36,6 +36,7 @@ private[collection] class RichIterable[A](underlying: sc.Iterable[A]) {
 private[collection] class RichSeq[A](underlying: sc.Seq[A]) {
   def asJava[B](implicit c: Coercible[A, B]): ju.List[B] = underlying match {
     case w : j2s.ListWrapper[_] => coerce(w.underlying.asInstanceOf[ju.List[A]])
+    case ls: sci.LinearSeq[_] => coerce(new LinearSeqWrapper(ls))
     case _ => coerce(new SeqWrapper(underlying))
   }
 }
