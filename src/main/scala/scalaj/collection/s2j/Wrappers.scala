@@ -31,20 +31,17 @@ abstract class MutableIteratorWrapper[A](override val underlying: sc.Iterator[A]
   }
 }
 
-@serializable @SerialVersionUID(1L)
-class IterableWrapper[A](val underlying: sc.Iterable[A]) extends ju.AbstractCollection[A] {
+class IterableWrapper[A](val underlying: sc.Iterable[A]) extends ju.AbstractCollection[A] with Serializable {
   override def size(): Int = underlying.size
   override def iterator(): ju.Iterator[A] = new IteratorWrapper(underlying.iterator)
 }
 
-@serializable @SerialVersionUID(1L)
-class SeqWrapper[A](val underlying: sc.Seq[A]) extends ju.AbstractList[A] {
+class SeqWrapper[A](val underlying: sc.Seq[A]) extends ju.AbstractList[A] with Serializable {
   override def size(): Int = underlying.size
   override def get(index: Int): A = underlying(index)
 }
 
-@serializable @SerialVersionUID(1L)
-class LinearSeqWrapper[A](val underlying: sci.LinearSeq[A]) extends ju.List[A] {
+class LinearSeqWrapper[A](val underlying: sci.LinearSeq[A]) extends ju.List[A] with Serializable {
   // Size can be O(N), so we cache the value here (val instead of def)
   override val size: Int = underlying.size
 
@@ -122,8 +119,7 @@ class LinearSeqWrapper[A](val underlying: sci.LinearSeq[A]) extends ju.List[A] {
   }
 }
 
-@serializable @SerialVersionUID(1L)
-class MutableSeqWrapper[A](override val underlying: scm.Seq[A]) extends SeqWrapper(underlying) {
+class MutableSeqWrapper[A](override val underlying: scm.Seq[A]) extends SeqWrapper(underlying) with Serializable {
   override def set(index: Int, element: A): A = {
     val rv = underlying(index)
     underlying(index) = element
@@ -131,20 +127,17 @@ class MutableSeqWrapper[A](override val underlying: scm.Seq[A]) extends SeqWrapp
   }
 }
 
-@serializable @SerialVersionUID(1L)
-class BufferWrapper[A](override val underlying: scm.Buffer[A]) extends MutableSeqWrapper(underlying) {
+class BufferWrapper[A](override val underlying: scm.Buffer[A]) extends MutableSeqWrapper(underlying) with Serializable {
   override def remove(index: Int): A = underlying.remove(index)
   override def add(index: Int, element: A): Unit = underlying.insert(index, element)
 }
 
-@serializable @SerialVersionUID(1L)
-class SetWrapper[A](val underlying: sc.Set[A]) extends ju.AbstractSet[A] {
+class SetWrapper[A](val underlying: sc.Set[A]) extends ju.AbstractSet[A] with Serializable {
   override def iterator(): ju.Iterator[A] = new IteratorWrapper(underlying.iterator)
   override def size(): Int = underlying.size
 }
 
-@serializable @SerialVersionUID(1L)
-class MutableSetWrapper[A](override val underlying: scm.Set[A]) extends SetWrapper(underlying) {
+class MutableSetWrapper[A](override val underlying: scm.Set[A]) extends SetWrapper(underlying) with Serializable {
   override def add(element: A): Boolean = {
     val s = underlying.size
     underlying += element
@@ -170,8 +163,7 @@ object MapWrapper {
   }
 }
 
-@serializable @SerialVersionUID(1L)
-class MapWrapper[A, B](val underlying: sc.Map[A, B]) extends ju.AbstractMap[A, B] {
+class MapWrapper[A, B](val underlying: sc.Map[A, B]) extends ju.AbstractMap[A, B] with Serializable {
   import MapWrapper.Entry
 
   override def entrySet(): ju.Set[ju.Map.Entry[A, B]] = new ju.AbstractSet[ju.Map.Entry[A, B]] {
@@ -181,8 +173,7 @@ class MapWrapper[A, B](val underlying: sc.Map[A, B]) extends ju.AbstractMap[A, B
   }
 }
 
-@serializable @SerialVersionUID(1L)
-class MutableMapWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.AbstractMap[A, B] {
+class MutableMapWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.AbstractMap[A, B] with Serializable {
   import MapWrapper.Entry
 
   override def put(key: A, value: B): B = underlying.put(key, value).getOrElse(null.asInstanceOf[B])
@@ -197,8 +188,7 @@ class MutableMapWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.Abstract
     }
 }
 
-@serializable @SerialVersionUID(1L)
-class MutableMapDictionaryWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.Dictionary[A, B] {
+class MutableMapDictionaryWrapper[A, B](val underlying: scm.Map[A, B]) extends ju.Dictionary[A, B] with Serializable {
   override def remove(key: Any): B = {
     try {
       underlying.remove(key.asInstanceOf[A]).getOrElse(null.asInstanceOf[B])

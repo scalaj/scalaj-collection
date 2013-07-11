@@ -6,9 +6,9 @@ version := "1.3-SNAPSHOT"
 
 crossScalaVersions := Seq("2.9.2", "2.10.2")
 
-scalacOptions <++= version map { (v: String) => 
+scalacOptions <++= scalaVersion map { (v: String) => 
   if (v.trim.startsWith("2.10"))
-    Seq("-deprecation", "-feature")
+    Seq("-deprecation", "-feature", "-language:implicitConversions", "-language:higherKinds")
   else
     Seq("-deprecation")
 }

@@ -39,22 +39,18 @@ class IteratorWrapper[A](val underlying: ju.Iterator[A]) extends sc.Iterator[A] 
   override def hasNext: Boolean = underlying.hasNext
 }
 
-@serializable @SerialVersionUID(1L)
-class IterableWrapper[A](val underlying: jl.Iterable[A]) extends sc.Iterable[A] {
+class IterableWrapper[A](val underlying: jl.Iterable[A]) extends sc.Iterable[A] with Serializable {
   override def iterator: sc.Iterator[A] = new IteratorWrapper(underlying.iterator)
 }
 
-@serializable @SerialVersionUID(1L)
-class CollectionWrapper[A](override val underlying: ju.Collection[A]) extends IterableWrapper(underlying)
+class CollectionWrapper[A](override val underlying: ju.Collection[A]) extends IterableWrapper(underlying) with Serializable
 
-@serializable @SerialVersionUID(1L)
-class ListWrapper[A](override val underlying: ju.List[A]) extends CollectionWrapper(underlying) with sc.Seq[A] {
+class ListWrapper[A](override val underlying: ju.List[A]) extends CollectionWrapper(underlying) with sc.Seq[A] with Serializable {
   override def apply(index: Int): A = underlying.get(index)
   override def length: Int = underlying.size
 }
 
-@serializable @SerialVersionUID(1L)
-class MutableListWrapper[A](override val underlying: ju.List[A]) extends ListWrapper(underlying) with scm.Seq[A] {
+class MutableListWrapper[A](override val underlying: ju.List[A]) extends ListWrapper(underlying) with scm.Seq[A] with Serializable {
   override def update(index: Int, element: A): Unit = underlying.set(index, element)
 }
 
@@ -62,14 +58,12 @@ abstract class AbstractSetWrapper[A](override val underlying: ju.Set[A]) extends
   override def contains(key: A): Boolean = underlying.contains(key)
 }
 
-@serializable @SerialVersionUID(1L)
-class SetWrapper[A](override val underlying: ju.Set[A]) extends AbstractSetWrapper(underlying) {
+class SetWrapper[A](override val underlying: ju.Set[A]) extends AbstractSetWrapper(underlying) with Serializable {
   override def - (elem: A): sc.Set[A] = empty ++ this - elem
   override def + (elem: A): sc.Set[A] = empty ++ this + elem
 }
 
-@serializable @SerialVersionUID(1L)
-class MutableSetWrapper[A](override val underlying: ju.Set[A]) extends AbstractSetWrapper(underlying) with scm.Set[A] {
+class MutableSetWrapper[A](override val underlying: ju.Set[A]) extends AbstractSetWrapper(underlying) with scm.Set[A] with Serializable {
   override def -= (elem: A): this.type = {
     underlying.remove(elem)
     this
@@ -89,14 +83,12 @@ abstract class AbstractMapWrapper[A, B](val underlying: ju.Map[A, B]) extends sc
   }
 }
 
-@serializable @SerialVersionUID(1L)
-class MapWrapper[A, B](override val underlying: ju.Map[A, B]) extends AbstractMapWrapper(underlying) {
+class MapWrapper[A, B](override val underlying: ju.Map[A, B]) extends AbstractMapWrapper(underlying) with Serializable {
   override def - (key: A): sc.Map[A, B] = empty ++ this - key
   override def + [B1 >: B](kv: (A, B1)): sc.Map[A, B1] = empty ++ this + (kv)
 }
 
-@serializable @SerialVersionUID(1L)
-class MutableMapWrapper[A, B](override val underlying: ju.Map[A, B]) extends AbstractMapWrapper(underlying) with scm.Map[A, B] {
+class MutableMapWrapper[A, B](override val underlying: ju.Map[A, B]) extends AbstractMapWrapper(underlying) with scm.Map[A, B] with Serializable {
   override def -= (key: A): this.type = {
     underlying.remove(key)
     this
@@ -111,8 +103,7 @@ class MutableMapWrapper[A, B](override val underlying: ju.Map[A, B]) extends Abs
 //   override def +[B1 >: B](kv: (A, B1)): sc.SortedMap[A, B] = empty ++ this + (kv)
 // }
 
-@serializable @SerialVersionUID(1L)
-class DictionaryWrapper[A, B](val underlying: ju.Dictionary[A, B]) extends scm.Map[A, B] {
+class DictionaryWrapper[A, B](val underlying: ju.Dictionary[A, B]) extends scm.Map[A, B] with Serializable {
   override def iterator: sc.Iterator[(A, B)] =
     new EnumerationWrapper(underlying.keys).map(key => (key, underlying.get(key)))
   override def get(key: A): Option[B] = Option(underlying.get(key))
