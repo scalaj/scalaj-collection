@@ -1,0 +1,26 @@
+Pre-release checklist:
+
+  [ ] Update CHANGELOG.md with features included in the new release
+  [ ] Update README.md with latest version number
+     [ ] Update sbt example in README.md with latest version
+     [ ] Update maven example in README.md with latest version
+  [ ] Remove the "-SNAPSHOT" from the version in build.sbt
+  [ ] Reload sbt
+  [ ] Run "; +clean; +test" in sbt to make sure everything works.
+  [ ] Run "+publish-local"
+  [ ] Commit these changes (but don't push!)
+
+Release checklist:
+
+  [ ] Run "+publish" in sbt
+  [ ] Find the scalaj-collecton repository on oss.sonatype.org / Staging Repositories
+  [ ] Select it and click Close
+  [ ] Select it and click Release
+
+Post-release checklist:
+
+  [ ] Tag the release version (e.g., "git tag v1.0.0")
+  [ ] Bump the version in build.sbt and add "-SNAPSHOT" to it
+  [ ] Commit these changes
+  [ ] Push both commits to Github
+  [ ] Push tags to Github with "git push origin --tags"
