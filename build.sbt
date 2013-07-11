@@ -38,3 +38,30 @@ credentials ++= {
     case _ => Nil
   }
 }
+
+publishMavenStyle := true
+
+publishArtifact in Test := false
+
+pomIncludeRepository := { _ => false }
+
+pomExtra := (
+  <url>https://github.com/scalaj/scalaj-collection</url>
+  <licenses>
+    <license>
+      <name>Apache</name>
+      <url>http://www.opensource.org/licenses/Apache-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>git@github.com:scalaj/scalaj-collection.git</url>
+    <connection>scm:git:git@github.com:scalaj/scalaj-collection.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>jorgeortiz85</id>
+      <name>Jorge Ortiz</name>
+      <url>http://github.com/jorgeortiz85</url>
+    </developer>
+  </developers>)
