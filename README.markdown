@@ -74,7 +74,7 @@ Build the project and create the JAR (requires [sbt](http://www.scala-sbt.org/) 
 
 ## Documentation
 
-The following methods are added via the [Pimp My Library](http://www.artima.com/weblogs/viewpost.jsp?thread=179766) pattern:
+The following methods are added via the [Swag My Library](http://www.artima.com/weblogs/viewpost.jsp?thread=179766) pattern:
 
     // Java to Scala
     java.lang.Comparable[A]   #asScala: scala.math.Ordered[A]
