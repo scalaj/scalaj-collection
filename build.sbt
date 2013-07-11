@@ -2,7 +2,7 @@ name := "scalaj-collection"
 
 organization := "org.scalaj"
 
-version := "1.3-SNAPSHOT"
+version := "1.3"
 
 crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.10.2")
 
