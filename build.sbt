@@ -8,9 +8,9 @@ crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.10
 
 scalacOptions <++= scalaVersion map { (v: String) => 
   if (v.trim.startsWith("2.10"))
-    Seq("-deprecation", "-feature", "-language:implicitConversions", "-language:higherKinds")
+    Seq("-deprecation", "-unchecked", "-feature", "-language:implicitConversions", "-language:higherKinds")
   else
-    Seq("-deprecation")
+    Seq("-deprecation", "-unchecked")
 }
 
 publishTo <<= version { (v: String) =>
