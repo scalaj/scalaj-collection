@@ -1,3 +1,0 @@
-1.2 release:
-
-* Binary compatibility with Scala 2.9.1

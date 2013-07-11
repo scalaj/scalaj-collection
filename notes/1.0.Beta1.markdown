@@ -1,5 +1,0 @@
-Initial release:
-
-* Port of scala-javautils to Scala 2.8.0.Beta1
-* Now with a better package name: scalaj.collection
-* Also supports bidirectional conversion between Java boxed types (java.lang.Integer) and Scala primitive types (scala.Int)

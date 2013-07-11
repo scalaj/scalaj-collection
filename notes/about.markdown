@@ -1,1 +1,0 @@
-[scalaj-collection](http://github.com/scalaj/scalaj-collection) is a library for converting between Java and Scala collections.

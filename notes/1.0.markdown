@@ -1,6 +1,0 @@
-1.0 release:
-
-* Turn any Scala collection into the corresponding Java collection
-* Turn any Java collection into the corresponding Scala collection
-* Use `foreach` on any Java collection
-* Correctly handle primitives, Comparable, Comparator, Ordered, and Ordering
