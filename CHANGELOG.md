@@ -1,5 +1,9 @@
 ## Release Notes
 
+# 1.4
+
+- Support for Collection<E>#toArray(T[])T[] in LinearSeqWrapper
+
 # 1.3
 
 - Drop support for Scala 2.8.x
