@@ -2,6 +2,7 @@ package scalaj
 package collection
 package s2j
 
+import java.lang.reflect
 import java.{util => ju}
 import scala.{collection => sc}
 import scala.collection.{immutable => sci, mutable => scm}
@@ -66,7 +67,19 @@ class LinearSeqWrapper[A](val underlying: sci.LinearSeq[A]) extends ju.List[A] w
   override def subList(start: Int, end: Int): ju.List[A] = new LinearSeqWrapper(underlying.slice(start, end))
 
   override def toArray(): Array[AnyRef] = underlying.toArray[Any].asInstanceOf[Array[AnyRef]]
-  override def toArray[T](arr: Array[T with AnyRef]): Array[T with AnyRef] = throw new UnsupportedOperationException
+
+  override def toArray[T](arr: Array[T with AnyRef]): Array[T with AnyRef] = {
+    val n = this.size
+    val res =
+      if (arr.length >= n)
+        arr
+      else
+        reflect.Array.newInstance(arr.getClass.getComponentType, n).asInstanceOf[Array[T with AnyRef]]
+    underlying.copyToArray(res.asInstanceOf[Array[Any]])
+    if (res.length > n)
+      res(n) = null.asInstanceOf[T with AnyRef]
+    res
+  }
 
   override def add(elem: A): Boolean = throw new UnsupportedOperationException
   override def add(index: Int, elem: A): Unit = throw new UnsupportedOperationException
