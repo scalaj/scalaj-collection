@@ -2,7 +2,7 @@ package scalaj
 package collection
 package s2j
 
-import java.lang.reflect
+import java.{lang => jl}
 import java.{util => ju}
 import scala.{collection => sc}
 import scala.collection.{immutable => sci, mutable => scm}
@@ -74,7 +74,7 @@ class LinearSeqWrapper[A](val underlying: sci.LinearSeq[A]) extends ju.List[A] w
       if (arr.length >= n)
         arr
       else
-        reflect.Array.newInstance(arr.getClass.getComponentType, n).asInstanceOf[Array[T with AnyRef]]
+        jl.reflect.Array.newInstance(arr.getClass.getComponentType, n).asInstanceOf[Array[T with AnyRef]]
     underlying.copyToArray(res.asInstanceOf[Array[Any]])
     if (res.length > n)
       res(n) = null.asInstanceOf[T with AnyRef]
@@ -129,6 +129,48 @@ class LinearSeqWrapper[A](val underlying: sci.LinearSeq[A]) extends ju.List[A] w
     override def set(e: A): Unit = throw new UnsupportedOperationException
     override def add(e: A): Unit = throw new UnsupportedOperationException
     override def remove(): Unit = throw new UnsupportedOperationException
+  }
+
+  override def equals(that: Any): Boolean = that match {
+    case that: AnyRef if this eq that =>
+      true
+    case that: ju.List[_] =>
+      val it1 = this.iterator()
+      val it2 = that.iterator()
+      var same = true
+      while (it1.hasNext && it2.hasNext && same) {
+        same = (it1.next == it2.next)
+      }
+      same && !(it1.hasNext || it2.hasNext)
+    case _ =>
+      false
+  }
+
+  override def hashCode(): Int = {
+    var _hashCode = 1
+    val it = this.iterator()
+    while (it.hasNext) {
+      val e = it.next
+      _hashCode = 31*_hashCode + e.##
+    }
+    _hashCode
+  }
+
+  override def toString(): String = {
+    val it = this.iterator()
+    if (!it.hasNext) {
+      "[]"
+    } else {
+      val sb = new jl.StringBuilder
+      sb.append('[')
+      sb.append(it.next)
+      while (it.hasNext) {
+        sb.append(',').append(' ')
+        sb.append(it.next)
+      }
+      sb.append(']')
+      sb.toString
+    }
   }
 }
 

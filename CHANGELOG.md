@@ -1,5 +1,9 @@
 ## Release Notes
 
+# 1.5
+
+- Implement equals, hashCode, toString in LinearSeqWrapper
+
 # 1.4
 
 - Support for Collection<E>#toArray(T[])T[] in LinearSeqWrapper
