@@ -1,5 +1,9 @@
 ## Release Notes
 
+# 1.6
+
+- Compiled for Scala 2.11
+
 # 1.5
 
 - Implement equals, hashCode, toString in LinearSeqWrapper

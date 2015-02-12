@@ -2,12 +2,12 @@ name := "scalaj-collection"
 
 organization := "org.scalaj"
 
-version := "1.6-SNAPSHOT"
+version := "1.6"
 
-crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.10.2")
+crossScalaVersions := Seq("2.9.3", "2.10.4", "2.11.5")
 
 scalacOptions <++= scalaVersion map { (v: String) => 
-  if (v.trim.startsWith("2.10"))
+  if (v.trim.startsWith("2.1"))
     Seq("-deprecation", "-unchecked", "-feature", "-language:implicitConversions", "-language:higherKinds")
   else
     Seq("-deprecation", "-unchecked")

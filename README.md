@@ -45,7 +45,7 @@ scalaj-collection requires Scala 2.9.x or Scala 2.10.x.
 
 If you're using sbt, simply add the following line to your project file:
 
-    libraryDependencies += "org.scalaj" %% "scalaj-collection" % "1.5"
+    libraryDependencies += "org.scalaj" %% "scalaj-collection" % "1.6"
 
 ### Maven
 
@@ -54,7 +54,7 @@ If you're using Maven, add the following to your pom.xml:
     <dependency>
       <groupId>org.scalaj</groupId>
       <artifactId>scalaj-collection_${scala.version}</artifactId>
-      <version>1.5</version>
+      <version>1.6</version>
     </dependency>
 
 ### JARs
