@@ -37,7 +37,7 @@ The `map`, `filter`, and `flatMap` methods are still pending.
 
 ## Requirements
 
-scalaj-collection requires Scala 2.9.x or Scala 2.10.x.
+scalaj-collection requires Scala 2.9.x, 2.10.x or 2.11.x
 
 ## Installation
 
